@@ -1,0 +1,107 @@
+/* Style for the home page */
+.home-page {
+    text-align: center; /* Center text and elements horizontally */
+    padding: 20px; /* Add some padding around the page content */
+    color: whitesmoke ;
+
+}
+
+/* Style for the search bar form */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Transparent background */
+    border-radius: 12px; /* Rounded corners */
+    padding: 5px; /* Optional: Adjust padding to your liking */
+    border: 1px solid #ccc; /* Optional: Border color and width */
+    margin-top: 20px; /* Add space between Dev@DEAKIN and the search bar */
+    margin-bottom: 20px; /* Add some space below the search bar */
+    position: relative; /* For positioning the icon */
+}
+
+/* Style for the input field */
+.search-bar input {
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Rounded corners */
+    padding: 10px;
+    margin-left: 10px;
+    padding-left: 40px; /* Space for the icon */
+    outline: none; /* Remove default outline */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    flex: 1; /* Allow the input to take available space */
+}
+
+/* Style for the search button */
+.search-bar button {
+    border: none; /* Remove default border */
+    padding: 10px;
+    background-color: #a200ff; /* Button background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+}
+
+/* Search icon */
+.search-bar .search-icon {
+    position: absolute; /* Positioning relative to the parent */
+    left: 10px; /* Position the icon inside the input */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust vertical alignment */
+    font-size: 18px; /* Icon size */
+    color: #cc00ff; /* Icon color */
+}
+
+/* Style for the Dev@DEAKIN text */
+.home-page p {
+    font-size: 24px; /* Adjust font size */
+    margin-bottom: 20px; /* Add space below the text */
+    color: white; /* Text color */
+}
+
+
+/* Style for the login button */
+.login-button {
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-left:rgba(255, 255, 255, 0.8); /* Remove default border */
+    background-color: #7104ab; /* Button background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+}
+
+.login-button:hover, .search-bar button:hover {
+    background-color: #b014e9; /* Darker background color on hover */
+}
+.cardimage{
+    width: 120px;
+    height: 120px;
+  }
+  
+  .ArticleSection{
+    display: flex;
+    margin-left:300px;
+  }
+  
+ /* Style for the Tutorial Section */
+.TutorialSection {
+    display: flex;
+    flex-direction: row; /* Stack items vertically */
+    margin-left: 300px;
+    color: whitesmoke; /* Text color */
+    border-radius: 12px; /* Rounded corners */
+}
+
+.ArticleSection{
+    padding-bottom: 20px;
+}
+  
+  
+  h1{
+    text-align: center;
+  }
+  
+.subscribe{
+    margin-left: 200px;
+  }
+  

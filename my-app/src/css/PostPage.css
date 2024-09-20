@@ -1,0 +1,60 @@
+.PostSection {
+  margin: auto;
+  width: auto;
+  padding: 2px 20px 2px 20px;
+  background-color: rgba(225, 89, 240, 0.522); /* Transparent background */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  align-items: center;
+}
+
+.PostSection > * {
+  margin-bottom: 20px;
+}
+
+.TitleBox {
+  margin-bottom: 10px;
+}
+
+.Form {
+  margin-top: 20px;
+}
+
+.Form .Field {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.Form .Field label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.Form .Field .TextArea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  width: 100%;
+}
+
+.Form .Field .TextArea:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.PostPage h1{
+  padding-top: 30px;
+  color: white;
+}
+
+.ButtonSection{
+  background-color: #330A6A;
+  padding: 10px 500px 10px 500px
+}

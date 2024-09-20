@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.40a923e7.css",
+    "main.js": "/static/js/main.709b0df9.js",
+    "static/media/img.jpg": "/static/media/img.e4cb8fccec29fe86cee6.jpg",
+    "static/media/ig.png": "/static/media/ig.bd1e9bac46b7bfc48e63.png",
+    "static/media/Deakin.avif": "/static/media/Deakin.a4ef84a65733de861231.avif",
+    "static/media/twitter.jpg": "/static/media/twitter.81b3afaa5e978b207648.jpg",
+    "static/media/React.avif": "/static/media/React.aae4ac7304f26f476487.avif",
+    "index.html": "/index.html",
+    "main.40a923e7.css.map": "/static/css/main.40a923e7.css.map",
+    "main.709b0df9.js.map": "/static/js/main.709b0df9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.40a923e7.css",
+    "static/js/main.709b0df9.js"
+  ]
+}

@@ -1,0 +1,42 @@
+/* PostTypeForm.css */
+
+.PostTypeForm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    background-color: #cb14c2f0, transparent(0.2);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .PostTypeForm label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .PostTypeForm input[type="radio"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  
+  .PostTypeForm label span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .PostTypeForm label:hover {
+    background-color: #f2f2f2;
+    color: black
+  }
+  
+  .PostTypeForm label:hover input[type="radio"] {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }

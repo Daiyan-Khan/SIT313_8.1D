@@ -1,0 +1,7 @@
+.TitleBox{
+    display: flex;
+    background-color: white,transparent(0.4);
+}
+.TitleBox input{
+    margin-top :10px;
+}

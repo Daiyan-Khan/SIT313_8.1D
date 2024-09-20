@@ -1,0 +1,57 @@
+/* Style for the signup container */
+.signup {
+    max-width: 400px; /* Limit the width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px; /* Add some padding */
+    text-align: left; /* Align text to the left */
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly transparent white background */
+    border-radius: 12px; /* Rounded corners for the form container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    color: rgb(100, 0, 128);
+}
+
+/* Style for form groups (label and input pairs) */
+.form-group {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 15px; /* Space between form groups */
+}
+
+/* Style for labels */
+.form-group label {
+    width: 150px; /* Fixed width for labels */
+    margin-right: 10px; /* Space between label and input */
+    font-weight: bold; /* Bold text for labels */
+}
+
+/* Style for inputs */
+.signup input {
+    flex: 1; /* Take up remaining space */
+    border: none; /* Remove default border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding inside inputs */
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white background */
+    outline: none; /* Remove default outline */
+}
+
+/* Style for submit and other buttons */
+.signup button {
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Rounded corners */
+    padding: 10px 20px 10px 20px; /* Adjust padding as needed */
+    background-color: #ae00ffd4; /* Button background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    margin-bottom: 10px; /* Space between the button and any other content */
+}
+
+.signup button:hover {
+    background-color: #e914cd;
+}
+
+/* Style for error message */
+.signup p {
+    color: red; /* Error message color */
+    font-size: 14px; /* Font size for error messages */
+}

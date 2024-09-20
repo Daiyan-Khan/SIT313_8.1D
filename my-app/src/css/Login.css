@@ -1,0 +1,81 @@
+/* Apply a background image and center content */
+body {
+    background-image: url('../images/img.jpg'); /* Ensure the image path is correct */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style for the login page container */
+.login {
+    position: relative; /* Position relative to position the sign-up link */
+    text-align: center; /* Center text and elements horizontally */
+    padding: 20px; /* Add some padding around the page content */
+    color: rgb(148, 9, 255); /* Text color for better visibility */
+    background-color: rgba(255, 255, 255, 0.4); /* Slightly transparent white background */
+    border-radius: 12px; /* Rounded corners for the form container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    max-width: 400px; /* Optional: Limit the width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+/* Style for the sign-up link */
+.signup-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin-bottom: 20px;
+   
+}
+
+.signup-button{
+    font-size: 1px;
+}
+/* Style for the form */
+.login form {
+    display: flex;
+    flex-direction: column; /* Stack inputs and button vertically */
+    align-items: center; /* Center elements horizontally */
+    padding: 50px;
+}
+
+/* Style for the input fields */
+.login input {
+    width: 100%; /* Full width of the form container */
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Rounded corners */
+    padding: 10px;
+    margin-bottom: 10px; /* Space between inputs */
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white background */
+    outline: none; /* Remove default outline */
+}
+
+/* Style for the submit button */
+.login button {
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Rounded corners */
+    padding: 10px 20px 10px 20px; /* Adjust padding as needed */
+    background-color: #ae00ffd4; /* Button background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    margin-bottom: 10px; /* Space between the button and any other content */
+}
+
+.login button:hover {
+    background-color: #e914cd; /* Darker background color on hover */
+}
+
+/* Style for the error message */
+.login .error-message {
+    color: red; /* Error message color */
+    margin: 10px 0; /* Space around the error message */
+    font-size: 14px; /* Font size for error messages */
+}
+

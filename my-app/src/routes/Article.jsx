@@ -1,66 +1,134 @@
-// Article.js
 import React, { useState } from 'react';
-import TitleBox from './TitleBox'; // Importing TitleBox component for the article title
-import { TextArea, Form } from 'semantic-ui-react'; // Importing Semantic UI components for form elements
-import Tags from './Tags'; // Importing Tags component for tagging the article
-import ImageUploadComponent from '../ImageUpload'; // Import the ImageUploadComponent
-import '../css/PostPage.css'; // Importing CSS for styling the PostPage
+import { TextArea, Form } from 'semantic-ui-react';
+import Tags from './Tags';
+import ImageUploadComponent from '../ImageUpload'; 
+import { db } from '../utils/firebase'; // Import Firestore
+import { collection, addDoc } from 'firebase/firestore'; // Firestore functions
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase Storage functions
+import '../css/PostPage.css'; 
 
-/**
- * Article component.
- * This component will render form for creating a new article, 
- * including fields for a title, abstract, article text, and tags.
- */
 const Article = () => {
-  const [imageUrls, setImageUrls] = useState([]); // State to hold uploaded image URLs
+  const [title, setTitle] = useState('');
+  const [abstract, setAbstract] = useState('');
+  const [body, setBody] = useState('');
+  const [tags, setTags] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (url) => {
-    setImageUrls((prev) => [...prev, url]); // Update the image URLs
+    setImageUrls((prev) => [...prev, url]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const userEmail = localStorage.getItem('userEmail');
+
+    // Create an array to hold upload promises
+    const uploadPromises = imageUrls.map(async (url) => {
+      const response = await fetch(url); // Fetch the image data
+      const blob = await response.blob(); // Convert to blob
+      const storageRef = ref(db, `articles/${Date.now()}_${url.split('/').pop()}`); // Create a unique file path
+
+      // Upload the file to Firebase Storage
+      await uploadBytes(storageRef, blob);
+      const downloadURL = await getDownloadURL(storageRef); // Get the download URL
+      return downloadURL;
+    });
+
+    try {
+      setLoading(true);
+      const uploadedImageUrls = await Promise.all(uploadPromises); // Wait for all uploads to complete
+
+      const articleData = {
+        title,
+        abstract,
+        body,
+        tags,
+        imageUrls: uploadedImageUrls, // Use the uploaded image URLs
+        userEmail,
+        createdAt: new Date(),
+      };
+
+      // Add document to Firestore
+      const docRef = await addDoc(collection(db, 'posts'), articleData);
+      console.log('Article successfully written with ID: ', docRef.id);
+
+      // Clear the form
+      setTitle('');
+      setAbstract('');
+      setBody('');
+      setTags([]);
+      setImageUrls([]);
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className='PostSection'> {/* Container for the article post section */}
-      <TitleBox 
-        style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px' }} 
-        text="Enter a descriptive title" 
-      />
-
-      <Form> {/* Form for article input */}
+    <div className='PostSection'>
+      <Form onSubmit={handleSubmit}>
         <Form.Field>
-          <label>Abstract</label>
+          <label style={{ color: 'white' }}>Title</label>
+          <input 
+            placeholder="Enter article title" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            style={{ 
+              width: '100%', 
+              backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+              borderRadius: '12px', 
+              padding: '10px',
+              border: '1px solid #ccc',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' 
+            }} 
+          />
+        </Form.Field>
+
+        <Form.Field>
+          <label style={{ color: 'white' }}>Abstract</label>
           <TextArea 
             placeholder="Enter a 1 paragraph abstract" 
+            value={abstract} 
+            onChange={(e) => setAbstract(e.target.value)} 
             style={{ minHeight: 50, width: '100%', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px' }} 
           />
         </Form.Field>
 
         <Form.Field>
-          <label>Article Text</label>
+          <label style={{ color: 'white' }}>Article Text</label>
           <TextArea 
             placeholder="Enter the full article text" 
+            value={body} 
+            onChange={(e) => setBody(e.target.value)} 
             style={{ minHeight: 400, width: '100%', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px' }} 
           />
         </Form.Field>
 
-        {/* Image upload component */}
+        <ImageUploadComponent onUpload={handleImageUpload} />
+        
+        <div className="uploaded-images" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+          {imageUrls.map((url, index) => (
+            <img 
+              key={index} 
+              src={url} 
+              alt={`Uploaded ${index}`} 
+              style={{ width: '100px', height: '100px', margin: '10px', borderRadius: '8px' }} 
+            />
+          ))}
+        </div>
+
+        <button type="submit" style={{ marginTop: '20px', padding: '10px 15px', borderRadius: '5px' }} disabled={loading}>
+          {loading ? 'Submitting...' : 'Submit Article'}
+        </button>
       </Form>
   
       <Tags 
         style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px' }} 
         text="article" 
       />
-      {/* Display uploaded images */}
-      <ImageUploadComponent onUpload={handleImageUpload} />
-      <div className="uploaded-images" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
-        {imageUrls.map((url, index) => (
-          <img 
-            key={index} 
-            src={url} 
-            alt={`Uploaded ${index}`} 
-            style={{ width: '100px', height: '100px', margin: '10px', borderRadius: '8px' }} 
-          />
-        ))}
-      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 .PostSection {
-  margin: auto;
+  margin-top: 10px;
   width: auto;
   padding: 2px 20px 2px 20px;
   background-color: rgba(225, 89, 240, 0.522); /* Transparent background */
@@ -50,7 +50,8 @@
 
 
 .PostPage h1{
-  padding-top: 30px;
+  margin-top: 30px;
+  padding-top: 100px;
   color: white;
 }
 

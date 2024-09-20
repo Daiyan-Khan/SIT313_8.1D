@@ -1,0 +1,16 @@
+.InputImage input {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #7104ab; /* Green background */
+    color: white; /* White text */
+    text-align: center;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .InputImage input:hover {
+    background-color: #b014e9; /* Darker green on hover */
+  }
+  

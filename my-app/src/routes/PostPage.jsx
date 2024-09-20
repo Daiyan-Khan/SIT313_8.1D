@@ -35,7 +35,6 @@ const PostPage = () => {
       {postType === 'article' ? <Article setPostContent={setPostContent} /> : <Question setPostContent={setPostContent} />}
       
       {/* Image upload */}
-      <ImageUpload onImageUpload={setImageURL} />
 
       <div className="ButtonSection">
         <Button onClick={handlePost} text={'Post'} />

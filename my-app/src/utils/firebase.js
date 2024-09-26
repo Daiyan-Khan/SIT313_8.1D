@@ -75,7 +75,15 @@ export const signInWithEmail = async (email, password) => {
         console.log("User signed in:", userCredential.user);
         return userCredential.user;
     } catch (error) {
-        console.error("Error signing in:", error.message);
-        throw new Error(error.message);
+        switch (error.code) {
+            case 'auth/wrong-password':
+                throw new Error('Incorrect password. Please try again.');
+            case 'auth/user-not-found':
+                throw new Error('No account found with this email.');
+            case 'auth/invalid-email':
+                throw new Error('Invalid email format.');
+            default:
+                throw new Error(error.message);
+        }
     }
 };

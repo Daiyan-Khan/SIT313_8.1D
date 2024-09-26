@@ -28,7 +28,8 @@ const Article = () => {
     const uploadPromises = imageUrls.map(async (url) => {
       const response = await fetch(url); // Fetch the image data
       const blob = await response.blob(); // Convert to blob
-      const storageRef = ref(db, `articles/${Date.now()}_${url.split('/').pop()}`); // Create a unique file path
+      const storage = getStorage();
+      const storageRef = ref(storage, `articles/${Date.now()}_${url.split('/').pop()}`); // Create a unique file path
 
       // Upload the file to Firebase Storage
       await uploadBytes(storageRef, blob);

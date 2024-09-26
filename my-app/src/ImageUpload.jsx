@@ -1,4 +1,3 @@
-// ImageUploadComponent.jsx
 import React, { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./utils/firebase";
@@ -44,7 +43,7 @@ const ImageUploadComponent = ({ onUpload }) => {
   };
 
   return (
-    <div className="InputImage">
+    <div>
       <input type="file" multiple onChange={handleImageChange} />
       <Button text="Upload Image(s)" onClick={handleUpload} />
     </div>

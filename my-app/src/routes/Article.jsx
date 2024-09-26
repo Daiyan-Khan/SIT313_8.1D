@@ -11,11 +11,19 @@ const Article = () => {
   const [abstract, setAbstract] = useState('');
   const [body, setBody] = useState('');
   const [tags, setTags] = useState([]);
+  const [currentTag, setCurrentTag] = useState(''); // State for current input tag
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (url) => {
     setImageUrls((prev) => [...prev, url]); // Add uploaded image URL to state
+  };
+
+  const handleAddTag = () => {
+    if (currentTag && !tags.includes(currentTag)) { // Add tag if not already in the list
+      setTags((prevTags) => [...prevTags, currentTag]);
+      setCurrentTag(''); // Clear the input field
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -107,15 +115,44 @@ const Article = () => {
           ))}
         </div>
 
+        <div style={{ marginTop: '20px' }}>
+          <input 
+            type="text" 
+            value={currentTag} 
+            onChange={(e) => setCurrentTag(e.target.value)} 
+            placeholder="Add a tag" 
+            style={{ 
+              width: '80%', 
+              padding: '10px', 
+              borderRadius: '5px', 
+              border: '1px solid #ccc',
+              marginRight: '10px'
+            }} 
+          />
+          <button type="button" onClick={handleAddTag} style={{ padding: '10px 15px', borderRadius: '5px' }}>
+            +
+          </button>
+        </div>
+
+        {/* Display added tags */}
+        <div style={{ marginTop: '10px' }}>
+          {tags.map((tag, index) => (
+            <span key={index} style={{ 
+              display: 'inline-block', 
+              background: '#e0e0e0', 
+              borderRadius: '12px', 
+              padding: '5px 10px', 
+              margin: '5px'
+            }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+
         <button type="submit" style={{ marginTop: '20px', padding: '10px 15px', borderRadius: '5px' }} disabled={loading}>
           {loading ? 'Submitting...' : 'Submit Article'}
         </button>
       </Form>
-  
-      <Tags 
-        style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px' }} 
-        text="article" 
-      />
     </div>
   );
 };

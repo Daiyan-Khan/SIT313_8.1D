@@ -4,7 +4,6 @@ import Tags from './Tags';
 import ImageUploadComponent from '../ImageUpload'; 
 import { db } from '../utils/firebase'; // Import Firestore
 import { collection, addDoc } from 'firebase/firestore'; // Firestore functions
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase Storage functions
 import '../css/PostPage.css'; 
 
 const Article = () => {
@@ -16,37 +15,24 @@ const Article = () => {
   const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (url) => {
-    setImageUrls((prev) => [...prev, url]);
+    setImageUrls((prev) => [...prev, url]); // Add uploaded image URL to state
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
     const userEmail = localStorage.getItem('userEmail');
 
-    // Create an array to hold upload promises
-    const uploadPromises = imageUrls.map(async (url) => {
-      const response = await fetch(url); // Fetch the image data
-      const blob = await response.blob(); // Convert to blob
-      const storage = getStorage();
-      const storageRef = ref(storage, `articles/${Date.now()}_${url.split('/').pop()}`); // Create a unique file path
-
-      // Upload the file to Firebase Storage
-      await uploadBytes(storageRef, blob);
-      const downloadURL = await getDownloadURL(storageRef); // Get the download URL
-      return downloadURL;
-    });
-
     try {
       setLoading(true);
-      const uploadedImageUrls = await Promise.all(uploadPromises); // Wait for all uploads to complete
 
+      // Prepare the article data, including image URLs
       const articleData = {
         title,
         abstract,
         body,
         tags,
-        imageUrls: uploadedImageUrls, // Use the uploaded image URLs
+        imageUrls, // Use the collected image URLs
         userEmail,
         createdAt: new Date(),
       };

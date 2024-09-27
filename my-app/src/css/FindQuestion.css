@@ -1,9 +1,9 @@
 /* FindQuestion.css */
 
 .find-question-page {
-    padding: 20px;
+    padding-top: 350px;
+    color: white;
 }
-
 .filter-section,
 .add-question-section {
     margin-bottom: 20px;
@@ -15,17 +15,6 @@ input, textarea {
     width: 100%;
 }
 
-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
 
 .question-list {
     display: flex;

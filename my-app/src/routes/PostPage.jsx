@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { db } from '../utils/firebase'; // Firebase Firestore instance
-import ImageUpload from '../ImageUpload';
 import Article from './Article';
 import Question from './Question';
 import PostTypeForm from './PostTypeForm';
-import Button from '../Button';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 import '../css/PostPage.css';
 

@@ -5,6 +5,7 @@ import Article from './Article';
 import Question from './Question';
 import PostTypeForm from './PostTypeForm';
 import Button from '../Button';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import '../css/PostPage.css';
 
 const PostPage = () => {
@@ -33,11 +34,14 @@ const PostPage = () => {
       <h1>What would you like to post today?</h1>
       <PostTypeForm postType={postType} onChange={setPostType} />
       {postType === 'article' ? <Article setPostContent={setPostContent} /> : <Question setPostContent={setPostContent} />}
-      
-      {/* Image upload */}
 
-      <div className="ButtonSection">
-        <Button onClick={handlePost} text={'Post'} />
+      {/* Home Button */}
+      <div style={{ marginTop: '20px' }}>
+        <Link to="/">
+          <button style={{ padding: '10px 15px', borderRadius: '5px' }}>
+            Home
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,52 +1,45 @@
 import React, { useState } from 'react';
 import { TextArea, Form } from 'semantic-ui-react';
 import ImageUploadComponent from '../ImageUpload'; 
-import { db } from '../utils/firebase'; // Import Firestore
-import { collection, addDoc } from 'firebase/firestore'; // Firestore functions
+import { db } from '../utils/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 import '../css/PostPage.css';
 
 const Question = () => {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState(''); // State for question description
-  const [tags, setTags] = useState([]); // State for tags
-  const [currentTag, setCurrentTag] = useState(''); // State for current input tag
-  const [imageUrls, setImageUrls] = useState([]); // State for image URLs
-  const [loading, setLoading] = useState(false); // Loading state
+  const [description, setDescription] = useState('');
+  const [tags, setTags] = useState([]);
+  const [currentTag, setCurrentTag] = useState('');
+  const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (url) => {
-    setImageUrls((prev) => [...prev, url]); // Add uploaded image URL to state
+    setImageUrls((prev) => [...prev, url]);
   };
 
   const handleAddTag = () => {
-    if (currentTag && !tags.includes(currentTag)) { // Add tag if not already in the list
+    if (currentTag && !tags.includes(currentTag)) {
       setTags((prevTags) => [...prevTags, currentTag]);
-      setCurrentTag(''); // Clear the input field
+      setCurrentTag('');
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const userEmail = localStorage.getItem('userEmail');
 
     try {
       setLoading(true);
-
-      // Prepare the question data, including image URLs and tags
       const questionData = {
         title,
         description,
         tags,
-        imageUrls, // Use the collected image URLs
+        imageUrls,
         userEmail,
         createdAt: new Date(),
       };
-
-      // Add document to Firestore
       const docRef = await addDoc(collection(db, 'questions'), questionData);
       console.log('Question successfully written with ID: ', docRef.id);
-
-      // Clear the form
       setDescription('');
       setTags([]);
       setImageUrls([]);
@@ -59,7 +52,6 @@ const Question = () => {
 
   return (
     <div className='PostSection'>
-      
       <Form onSubmit={handleSubmit}>
         <Form.Field>
           <label style={{ color: 'white' }}>Title</label>
@@ -87,7 +79,6 @@ const Question = () => {
           />
         </Form.Field>
 
-        {/* Image Upload Section */}
         <ImageUploadComponent onUpload={handleImageUpload} />
         
         <div className="uploaded-images" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
@@ -97,11 +88,11 @@ const Question = () => {
               src={url} 
               alt={`Uploaded ${index}`} 
               style={{ width: '100px', height: '100px', margin: '10px', borderRadius: '8px' }} 
+              onError={(e) => { e.target.src = 'fallback-image.png'; }} // Handle image load error
             />
           ))}
         </div>
 
-        {/* Tag input section */}
         <div style={{ marginTop: '20px' }}>
           <input 
             type="text" 
@@ -121,7 +112,6 @@ const Question = () => {
           </button>
         </div>
 
-        {/* Display added tags */}
         <div style={{ marginTop: '10px' }}>
           {tags.map((tag, index) => (
             <span key={index} style={{ 

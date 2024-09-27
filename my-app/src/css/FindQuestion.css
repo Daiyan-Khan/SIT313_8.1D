@@ -29,3 +29,29 @@ input, textarea {
     background-color: rgba(255, 255, 255, 0.1); /* Optional: gives a slight background color for visibility */
 }
 
+.expanded-details {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9 transparent(0.6); /* Light background for expanded details */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 5px; /* Rounded corners */
+}
+.click-to-collapse {
+    color: #e914cd;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+.image-gallery {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow images to wrap onto the next line */
+    gap: 10px; /* Space between images */
+    margin-top: 10px; /* Space above the image gallery */
+}
+
+.question-image {
+    max-width: 100%; /* Make sure images don't exceed their container's width */
+    max-height: 150px; /* Set a max height to prevent overflow */
+    object-fit: cover; /* Maintain aspect ratio and fill the space */
+    border-radius: 8px; /* Optional: add some rounded corners */
+}

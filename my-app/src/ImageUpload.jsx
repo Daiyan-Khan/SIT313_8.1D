@@ -1,25 +1,33 @@
 import React from 'react';
+import { storage } from './utils/firebase'; // Import Firebase storage
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const ImageUploadComponent = ({ onUpload }) => {
-  const handleImageUpload = (event) => {
+const ImageUpload = ({ onUpload }) => {
+  // Function to handle image upload
+  const handleImageUpload = async (file) => {
+    const storageRef = ref(storage, `images/${file.name}`); // Create a reference to the storage location
+    await uploadBytes(storageRef, file); // Upload the file
+    const url = await getDownloadURL(storageRef); // Get the download URL
+    onUpload(url); // Call the onUpload prop to update the URLs in parent
+  };
+
+  const handleFileChange = async (event) => {
     const files = event.target.files;
-    const urls = [];
-
     for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const url = URL.createObjectURL(file); // Create a URL for the uploaded file
-      urls.push(url);
-      // Here you can also upload the file to your storage if needed
+      await handleImageUpload(files[i]); // Upload each file and get URL
     }
-
-    urls.forEach(url => onUpload(url)); // Call the onUpload function with the new URL(s)
   };
 
   return (
     <div>
-      <input type="file" multiple onChange={handleImageUpload} />
+      <input 
+        type="file" 
+        accept="image/*" 
+        multiple 
+        onChange={handleFileChange} 
+      />
     </div>
   );
 };
 
-export default ImageUploadComponent;
+export default ImageUpload;

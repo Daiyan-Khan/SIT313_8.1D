@@ -9,6 +9,7 @@ const FindQuestion = () => {
     const [questions, setQuestions] = useState([]);
     const [filter, setFilter] = useState({ title: '', tag: '', date: '' });
     const [visibleQuestions, setVisibleQuestions] = useState([]);
+    const [expandedQuestionId, setExpandedQuestionId] = useState(null); // State to track expanded question
 
     // Fetch questions from Firestore
     const fetchQuestions = async () => {
@@ -38,6 +39,15 @@ const FindQuestion = () => {
     // Function to remove a question from the visible list
     const removeQuestion = (id) => {
         setVisibleQuestions(prev => prev.filter(question => question.id !== id));
+        // If the removed question is expanded, close it
+        if (expandedQuestionId === id) {
+            setExpandedQuestionId(null);
+        }
+    };
+
+    // Function to toggle the expanded state of a question
+    const toggleExpandQuestion = (id) => {
+        setExpandedQuestionId(prevId => (prevId === id ? null : id)); // Toggle expand/collapse
     };
 
     return (
@@ -69,19 +79,44 @@ const FindQuestion = () => {
             <div className="question-list">
                 {filteredQuestions.length > 0 ? (
                     filteredQuestions.map(question => (
-                        <div key={question.id} className="question-card">
+                        <div key={question.id} className="question-card" onClick={() => toggleExpandQuestion(question.id)}>
                             <button
-                                onClick={() => removeQuestion(question.id)}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent click on button from triggering the card click
+                                    removeQuestion(question.id);
+                                }}
                                 className="remove-button"
                                 title="Remove Question"
                             >
                                 &times;
                             </button>
-                            <h2>TITLE: {question.title}</h2>
+                            <h2>{question.title}</h2>
                             <p>DESCRIPTION: {question.description}</p>
-                            <p><strong>Tags:</strong> {question.tags ? question.tags.join(', ') : 'No tags'}</p> {/* Adjusted for tags array */}
-                            <p><strong>Date:</strong> {new Date(question.createdAt.seconds * 1000).toLocaleDateString()}</p> {/* Displaying formatted date */}
-                            <p><strong>Posted by:</strong> {question.userEmail}</p> {/* Adjusted to show email, assuming userEmail is stored */}
+                            <p><strong>Tags:</strong> {question.tags ? question.tags.join(', ') : 'No tags'}</p>
+                            <p><strong>Date:</strong> {new Date(question.createdAt.seconds * 1000).toLocaleDateString()}</p>
+                            
+                            {/* Expanded Details */}
+                            {expandedQuestionId === question.id && (
+                                <div className="expanded-details">
+                                    <p><strong>More Details:</strong></p>
+                                    <p>Posted By: {question.userEmail}</p>
+                                    <p>{question.additionalInfo}</p>
+                                    
+                                    {/* Image Display */}
+                                    {question.imageUrls && question.imageUrls.length > 0 && (
+                                        <div className="image-gallery">
+                                            {question.imageUrls.map((imageUrl, index) => (
+                                                <img key={index} src={imageUrl} alt={`Question Image ${index + 1}`} className="question-image" />
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Click to Collapse Text */}
+                                    <p className="click-to-collapse" onClick={() => toggleExpandQuestion(question.id)}>
+                                        Click to Collapse
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     ))
                 ) : (

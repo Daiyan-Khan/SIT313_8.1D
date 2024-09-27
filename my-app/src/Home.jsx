@@ -44,6 +44,8 @@ const Home = () => {
             {/* Welcome and Search Section */}
             <h1>Welcome to the Home Page</h1>
             <div className="search-bar">
+            <Link to="/find-question" className="nav-link">
+            <button type="button">Find Question</button></Link> 
                 <p>Dev@DEAKIN</p>
                 <input type="text" placeholder="Search..." />
                 {/* Conditional rendering for post button or sign-up prompt */}

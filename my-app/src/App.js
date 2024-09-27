@@ -4,6 +4,7 @@ import Home from './Home';  // Home page component
 import Login from './routes/Login'; // Login page component
 import Signup from './routes/SignUp'; // Signup page component
 import PostPage from './routes/PostPage'; // Post page component
+import FindQuestion from './routes/FindQuestion';
 import './css/App.css'
 const App = () => {
     return (
@@ -21,6 +22,7 @@ const App = () => {
 
                 {/* Route to post page (Only accessible when logged in, logic should be handled in Home or PostPage) */}
                 <Route path="/post" element={<PostPage />} />
+                <Route path="/find-question" element={<FindQuestion />} />
             </Routes>
         </Router>
     );

@@ -1,27 +1,21 @@
 // Header.js
-import React from 'react';
-import "./css/Header.css"; // Importing styles for the Header component
 
-/**
- * Header component.
- * This component renders the header section of the application,
- * including the title, search bar, and action buttons.
- */
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './css/Header.css'; // Ensure you have the appropriate styles
+
 const Header = () => {
-  return (
-    <div className='header'>
-      <h1 style={{ marginRight: 20 }}>DEV@Deakin</h1> {/* Main title of the application */}
-      
-      {/* Search bar for users to search content */}
-      <input className='searchbar' type="text" placeholder="Search" />
-      
-      {/* Button for posting content */}
-      <button className='submit'>Post</button>
-      
-      {/* Button for logging in */}
-      <button className='submit'>Login</button>
-    </div>
-  );
+    return (
+        <header className="header">
+            <nav className="navbar">
+                <Link to="/" className="nav-link">Home</Link>
+                
+                {/* New button for Find Question */}
+                <Link to="/about" className="nav-link">About</Link>
+                {/* Add other links as needed */}
+            </nav>
+        </header>
+    );
 };
 
 export default Header;

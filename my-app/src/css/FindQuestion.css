@@ -1,0 +1,42 @@
+/* FindQuestion.css */
+
+.find-question-page {
+    padding: 20px;
+}
+
+.filter-section,
+.add-question-section {
+    margin-bottom: 20px;
+}
+
+input, textarea {
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.question-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.question-card {
+    border: 2px solid white; /* Set border color and thickness */
+    padding: 16px; /* Optional: adds some space inside the card */
+    margin: 10px; /* Optional: adds some space between cards */
+    border-radius: 8px; /* Optional: rounds the corners of the card */
+    background-color: rgba(255, 255, 255, 0.1); /* Optional: gives a slight background color for visibility */
+}
+

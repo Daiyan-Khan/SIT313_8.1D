@@ -1,9 +1,9 @@
 // src/utils/firebase.js
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, isSignInWithEmailLink, signInWithEmailLink, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-import { getStorage, ref } from 'firebase/storage';
+import { getStorage } from 'firebase/storage';
 import bcrypt from "bcryptjs";
 
 // Your web app's Firebase configuration

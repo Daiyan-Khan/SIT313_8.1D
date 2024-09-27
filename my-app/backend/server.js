@@ -1,6 +1,6 @@
 const express = require('express');
 const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 const app = express();
 const storage = getStorage();

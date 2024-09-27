@@ -1,46 +1,45 @@
 import React, { useState } from 'react';
-import TitleBox from './TitleBox';
-import { TextArea } from 'semantic-ui-react';
-import Tags from './Tags';
+import { TextArea, Form } from 'semantic-ui-react';
+import ImageUploadComponent from '../ImageUpload'; 
 import { db } from '../utils/firebase'; // Import Firestore
 import { collection, addDoc } from 'firebase/firestore'; // Firestore functions
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase Storage functions
 import '../css/PostPage.css';
-import ImageUploadComponent from '../ImageUpload'; // Import the new component
 
 const Question = () => {
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState(''); // State for question description
-  const [imageUrls, setImageUrls] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [tags, setTags] = useState([]); // State for tags
+  const [currentTag, setCurrentTag] = useState(''); // State for current input tag
+  const [imageUrls, setImageUrls] = useState([]); // State for image URLs
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleImageUpload = (url) => {
-    setImageUrls((prev) => [...prev, url]); // Update the image URLs
+    setImageUrls((prev) => [...prev, url]); // Add uploaded image URL to state
+  };
+
+  const handleAddTag = () => {
+    if (currentTag && !tags.includes(currentTag)) { // Add tag if not already in the list
+      setTags((prevTags) => [...prevTags, currentTag]);
+      setCurrentTag(''); // Clear the input field
+    }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    // Create an array to hold upload promises
-    const uploadPromises = imageUrls.map(async (url) => {
-      const response = await fetch(url); // Fetch the image data
-      const blob = await response.blob(); // Convert to blob
-      const storage = getStorage();
-      const storageRef = ref(storage, `questions/${Date.now()}_${url.split('/').pop()}`); // Create a unique file path
-
-      // Upload the file to Firebase Storage
-      await uploadBytes(storageRef, blob);
-      const downloadURL = await getDownloadURL(storageRef); // Get the download URL
-      return downloadURL;
-    });
+    const userEmail = localStorage.getItem('userEmail');
 
     try {
       setLoading(true);
-      const uploadedImageUrls = await Promise.all(uploadPromises); // Wait for all uploads to complete
 
+      // Prepare the question data, including image URLs and tags
       const questionData = {
+        title,
         description,
-        imageUrls: uploadedImageUrls, // Use the uploaded image URLs
-        createdAt: new Date(), // Timestamp for the question
+        tags,
+        imageUrls, // Use the collected image URLs
+        userEmail,
+        createdAt: new Date(),
       };
 
       // Add document to Firestore
@@ -49,6 +48,7 @@ const Question = () => {
 
       // Clear the form
       setDescription('');
+      setTags([]);
       setImageUrls([]);
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -59,40 +59,87 @@ const Question = () => {
 
   return (
     <div className='PostSection'>
-      <TitleBox text="Start your question with how, why, what, etc." />
-      <p>Describe your problem:</p>
-      <TextArea 
-        placeholder="Enter a 1-paragraph description of your issue" 
-        value={description}
-        onChange={(e) => setDescription(e.target.value)} // Update description on change
-        style={{
-          height: 500, 
-          width: 800, 
-          backgroundColor: 'rgba(255, 255, 255, 0.8)', 
-          borderRadius: '12px'
-        }} 
-      />
       
-      <Tags text="question" />
-      
-      {/* Use the ImageUploadComponent here */}
-      <ImageUploadComponent onUpload={handleImageUpload} />
-
-      {/* Display uploaded images */}
-      <div className="uploaded-images" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
-        {imageUrls.map((url, index) => (
-          <img 
-            key={index} 
-            src={url} 
-            alt={`Uploaded ${index}`} 
-            style={{ width: '100px', height: '100px', margin: '10px', borderRadius: '8px' }} 
+      <Form onSubmit={handleSubmit}>
+        <Form.Field>
+          <label style={{ color: 'white' }}>Title</label>
+          <input 
+            placeholder="Enter article title" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            style={{ 
+              width: '100%', 
+              backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+              borderRadius: '12px', 
+              padding: '10px',
+              border: '1px solid #ccc',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' 
+            }} 
           />
-        ))}
-      </div>
+        </Form.Field>
+        <Form.Field>
+          <label style={{ color: 'white' }}>Describe your problem:</label>
+          <TextArea 
+            placeholder="Enter a description of your issue" 
+            value={description} 
+            onChange={(e) => setDescription(e.target.value)} 
+            style={{ minHeight: 400, width: '100%', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px' }} 
+          />
+        </Form.Field>
 
-      <button type="submit" onClick={handleSubmit} style={{ marginTop: '20px', padding: '10px 15px', borderRadius: '5px' }} disabled={loading}>
-        {loading ? 'Submitting...' : 'Submit Question'}
-      </button>
+        {/* Image Upload Section */}
+        <ImageUploadComponent onUpload={handleImageUpload} />
+        
+        <div className="uploaded-images" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+          {imageUrls.map((url, index) => (
+            <img 
+              key={index} 
+              src={url} 
+              alt={`Uploaded ${index}`} 
+              style={{ width: '100px', height: '100px', margin: '10px', borderRadius: '8px' }} 
+            />
+          ))}
+        </div>
+
+        {/* Tag input section */}
+        <div style={{ marginTop: '20px' }}>
+          <input 
+            type="text" 
+            value={currentTag} 
+            onChange={(e) => setCurrentTag(e.target.value)} 
+            placeholder="Add a tag" 
+            style={{ 
+              width: '80%', 
+              padding: '10px', 
+              borderRadius: '5px', 
+              border: '1px solid #ccc',
+              marginRight: '10px'
+            }} 
+          />
+          <button type="button" onClick={handleAddTag} style={{ padding: '10px 15px', borderRadius: '5px' }}>
+            +
+          </button>
+        </div>
+
+        {/* Display added tags */}
+        <div style={{ marginTop: '10px' }}>
+          {tags.map((tag, index) => (
+            <span key={index} style={{ 
+              display: 'inline-block', 
+              background: '#e0e0e0', 
+              borderRadius: '12px', 
+              padding: '5px 10px', 
+              margin: '5px'
+            }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <button type="submit" style={{ marginTop: '20px', padding: '10px 15px', borderRadius: '5px' }} disabled={loading}>
+          {loading ? 'Submitting...' : 'Submit Question'}
+        </button>
+      </Form>
     </div>
   );
 };

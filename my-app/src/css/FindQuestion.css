@@ -1,9 +1,19 @@
 /* FindQuestion.css */
 
 .find-question-page {
-    padding-top: 350px;
     color: white;
 }
+.find-question-page {
+    position: relative;
+    overflow: auto; /* Allows scrolling if needed */
+    height: 100vh; /* Adjust as necessary */
+    width:100vh;
+}
+
+.question-list {
+    position: relative; /* Ensure positioning context for absolute children */
+}
+
 .filter-section,
 .add-question-section {
     margin-bottom: 20px;

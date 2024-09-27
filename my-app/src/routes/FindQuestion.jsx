@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'; // For navigation
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { db } from '../utils/firebase'; // Import your Firebase config
 import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
-import Draggable from 'react-draggable'; // Import Draggable from react-draggable
 import Button from '../Button'; // Import the Button component
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'; // Import Drag and Drop
 import "../css/FindQuestion.css";
 
 const FindQuestion = () => {
@@ -11,7 +11,6 @@ const FindQuestion = () => {
     const [filter, setFilter] = useState({ title: '', tag: '', date: '' });
     const [visibleQuestions, setVisibleQuestions] = useState([]);
     const [expandedQuestionId, setExpandedQuestionId] = useState(null); // State to track expanded question
-    const containerRef = useRef(null); // Ref for the question list container
 
     // Fetch questions from Firestore
     const fetchQuestions = async () => {
@@ -52,38 +51,15 @@ const FindQuestion = () => {
         setExpandedQuestionId(prevId => (prevId === id ? null : id)); // Toggle expand/collapse
     };
 
-    // Function to handle drag stop and rearrange the question order based on overlapping
-    const handleDragStop = (e, questionId) => {
-        const draggedQuestionIndex = visibleQuestions.findIndex(q => q.id === questionId);
-        const draggedRect = e.target.getBoundingClientRect();
-        let newOrder = [...visibleQuestions];
+    // Handle the drag end event
+    const onDragEnd = (result) => {
+        if (!result.destination) return; // Dropped outside the list
 
-        newOrder.forEach((q, index) => {
-            if (q.id !== questionId) {
-                const targetQuestion = document.getElementById(q.id);
-                const targetRect = targetQuestion.getBoundingClientRect();
-                
-                // Check if dragged overlaps with the current target
-                if (draggedRect.top < targetRect.bottom && draggedRect.bottom > targetRect.top) {
-                    const overlapHeight = Math.min(draggedRect.bottom, targetRect.bottom) - Math.max(draggedRect.top, targetRect.top);
-                    const totalHeight = targetRect.bottom - targetRect.top;
+        const items = Array.from(visibleQuestions);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
 
-                    if (overlapHeight > totalHeight / 2) {
-                        // More than half overlap, snap above
-                        if (draggedQuestionIndex > index) {
-                            newOrder.splice(index, 0, newOrder.splice(draggedQuestionIndex, 1)[0]);
-                        }
-                    } else {
-                        // Less than half overlap, snap below
-                        if (draggedQuestionIndex < index) {
-                            newOrder.splice(index + 1, 0, newOrder.splice(draggedQuestionIndex, 1)[0]);
-                        }
-                    }
-                }
-            }
-        });
-
-        setVisibleQuestions(newOrder);
+        setVisibleQuestions(items);
     };
 
     return (
@@ -112,72 +88,78 @@ const FindQuestion = () => {
             </div>
 
             {/* Question List Section */}
-            <div className="question-list" ref={containerRef}>
-                {filteredQuestions.length > 0 ? (
-                    filteredQuestions.map((question, index) => (
-                        <Draggable
-                            key={question.id}
-                            axis="y"
-                            bounds={`parent`} // Limit dragging within the parent container
-                            onStop={(e) => handleDragStop(e, question.id)} // Handle drag stop
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable">
+                    {(provided) => (
+                        <div
+                            className="question-list"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
                         >
-                            <div
-                                id={question.id}
-                                className="question-card"
-                                style={{ position: 'relative' }}
-                                onClick={() => toggleExpandQuestion(question.id)} // Restored expand on click functionality
-                            >
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // Prevent click on button from triggering the card click
-                                        removeQuestion(question.id);
-                                    }}
-                                    className="remove-button"
-                                    title="Remove Question"
-                                >
-                                    &times;
-                                </button>
-                                <h2>{question.title}</h2>
-                                <p>DESCRIPTION: {question.description}</p>
-                                <p><strong>Tags:</strong> {question.tags ? question.tags.join(', ') : 'No tags'}</p>
-                                <p><strong>Date:</strong> {new Date(question.createdAt.seconds * 1000).toLocaleDateString()}</p>
-                                
-                                {/* Expanded Details */}
-                                {expandedQuestionId === question.id && (
-                                    <div className="expanded-details">
-                                        <p><strong>More Details:</strong></p>
-                                        <p>Posted By: {question.userEmail}</p>
-                                        <p>{question.additionalInfo}</p>
-                                        
-                                        {/* Image Display */}
-                                        {question.imageUrls && question.imageUrls.length > 0 && (
-                                            <div className="image-gallery">
-                                                {question.imageUrls.map((imageUrl, index) => (
-                                                    <img key={index} src={imageUrl} alt={`Question Image ${index + 1}`} className="question-image" />
-                                                ))}
+                            {filteredQuestions.length > 0 ? (
+                                filteredQuestions.map((question, index) => (
+                                    <Draggable key={question.id} draggableId={question.id} index={index}>
+                                        {(provided) => (
+                                            <div
+                                                className="question-card"
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                onClick={() => toggleExpandQuestion(question.id)}
+                                            >
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        removeQuestion(question.id);
+                                                    }}
+                                                    className="remove-button"
+                                                    title="Remove Question"
+                                                >
+                                                    &times;
+                                                </button>
+                                                <h2>{question.title}</h2>
+                                                <p>DESCRIPTION: {question.description}</p>
+                                                <p><strong>Tags:</strong> {question.tags ? question.tags.join(', ') : 'No tags'}</p>
+                                                <p><strong>Date:</strong> {new Date(question.createdAt.seconds * 1000).toLocaleDateString()}</p>
+                                                
+                                                {/* Expanded Details */}
+                                                {expandedQuestionId === question.id && (
+                                                    <div className="expanded-details">
+                                                        <p><strong>More Details:</strong></p>
+                                                        <p>Posted By: {question.userEmail}</p>
+                                                        <p>{question.additionalInfo}</p>
+                                                        
+                                                        {/* Image Display */}
+                                                        {question.imageUrls && question.imageUrls.length > 0 && (
+                                                            <div className="image-gallery">
+                                                                {question.imageUrls.map((imageUrl, index) => (
+                                                                    <img key={index} src={imageUrl} alt={`Question Image ${index + 1}`} className="question-image" />
+                                                                ))}
+                                                            </div>
+                                                        )}
+
+                                                        {/* Click to Collapse Text */}
+                                                        <p className="click-to-collapse" onClick={() => toggleExpandQuestion(question.id)}>
+                                                            Click to Collapse
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
+                                    </Draggable>
+                                ))
+                            ) : (
+                                <p>No questions found.</p>
+                            )}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
 
-                                        {/* Click to Collapse Text */}
-                                        <p className="click-to-collapse" onClick={(e) => {
-                                            e.stopPropagation(); // Prevent click inside expanded area from collapsing
-                                            toggleExpandQuestion(question.id);
-                                        }}>
-                                            Click to Collapse
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-                        </Draggable>
-                    ))
-                ) : (
-                    <p>No questions found.</p>
-                )}
-                
-                <Link to="/">
-                    <Button text="Home" />
-                </Link>
-            </div>
+            <Link to="/">
+                <Button text="Home" />
+            </Link>
         </div>
     );
 };

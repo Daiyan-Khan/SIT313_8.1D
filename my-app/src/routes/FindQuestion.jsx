@@ -1,9 +1,9 @@
-// FindQuestion.js
 import { Link, useNavigate } from 'react-router-dom'; // For navigation
 import React, { useEffect, useState } from 'react';
 import { db } from '../utils/firebase'; // Import your Firebase config
 import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
-import "../css/FindQuestion.css"
+import "../css/FindQuestion.css";
+
 const FindQuestion = () => {
     const [questions, setQuestions] = useState([]);
     const [filter, setFilter] = useState({ title: '', tag: '', date: '' });
@@ -26,8 +26,8 @@ const FindQuestion = () => {
     // Function to filter questions based on user input
     const filteredQuestions = questions.filter(question => {
         const titleMatch = filter.title === '' || (question.title && question.title.toLowerCase().includes(filter.title.toLowerCase()));
-        const tagMatch = filter.tag === '' || (question.tag && question.tag.toLowerCase().includes(filter.tag.toLowerCase()));
-        const dateMatch = filter.date === '' || (question.date && question.date === filter.date);
+        const tagMatch = filter.tag === '' || (question.tags && question.tags.some(tag => tag.toLowerCase().includes(filter.tag.toLowerCase()))); // Adjusted for tags array
+        const dateMatch = filter.date === '' || (question.createdAt && new Date(question.createdAt.seconds * 1000).toISOString().split('T')[0] === filter.date); // Date comparison
 
         return titleMatch && tagMatch && dateMatch;
     });
@@ -63,21 +63,23 @@ const FindQuestion = () => {
                     filteredQuestions.map(question => (
                         <div key={question.id} className="question-card">
                             <h2>TITLE: {question.title}</h2>
-                            <p>DESCRIPTION:{question.description}</p>
-                            <p><strong>Tag:</strong> {question.tag}</p>
-                            <p><strong>Date:</strong> {question.date}</p>
-                            <p><strong>Posted by:</strong> {question.userId}</p> {/* Assuming userId is stored */}
-                            {/* Here you can add a button/link to view answers or solutions */}
+                            <p>DESCRIPTION: {question.description}</p>
+                            <p><strong>Tags:</strong> {question.tags ? question.tags.join(', ') : 'No tags'}</p> {/* Adjusted for tags array */}
+                            <p><strong>Date:</strong> {new Date(question.createdAt.seconds * 1000).toLocaleDateString()}</p> {/* Displaying formatted date */}
+                            <p><strong>Posted by:</strong> {question.userEmail}</p> {/* Adjusted to show email, assuming userEmail is stored */}
+                         
+                            {/* Add a button/link to view answers or solutions */}
                         </div>
                     ))
                 ) : (
                     <p>No questions found.</p>
                 )}
+                
                 <Link to="/">
-          <button style={{ padding: '10px 15px', borderRadius: '5px' }}>
-            Home
-          </button>
-        </Link>
+                    <button style={{ padding: '10px 15px', borderRadius: '5px' }}>
+                        Home
+                    </button>
+                </Link>
             </div>
         </div>
     );

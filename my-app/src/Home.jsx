@@ -35,7 +35,7 @@ const Home = () => {
     return (
         <div className="home-page">
             <Header /> {/* Render the header component */}
-            <img 
+            <img className='home-page-img'
                 style={{ width: 1500 }} 
                 src={require('./images/Deakin.avif')} 
                 alt="Deakin Image" 

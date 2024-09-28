@@ -1,44 +1,59 @@
+/* Post Type Form styles */
 /* PostTypeForm.css */
-
 .PostTypeForm {
-  margin-top: 10px;
+  padding-top: 400px;
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Align items in a row */
+  justify-content: center; /* Center items horizontally */
+  margin: 20px; /* Add margin for spacing */
+}
+
+.PostTypeForm label {
+  margin-right: 20px; /* Add space between radio buttons */
+  color: white; /* Change text color to white (if needed) */
+}
+
+.PostTypeForm input[type="radio"] {
+  margin-right: 5px; /* Space between radio button and label */
+}
+
+.radio-post{
   display: flex;
   flex-direction: row;
-  align-items: center;
-  padding-top: 100px;
-  background-color: rgba(203, 20, 194, 0.8); /* Corrected background color */
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Ensure it's on top of other elements */
 }
-  .PostTypeForm label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    cursor: pointer;
-    color: white;
-  }
-  
-  .PostTypeForm input[type="radio"] {
-    margin-right: 10px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .PostTypeForm label span {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .PostTypeForm label:hover {
-    background-color: #f2f2f2;
-    color: black
-  }
-  
-  .PostTypeForm label:hover input[type="radio"] {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
+/* Post Type Form label styles */
+.PostTypeForm label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px; /* Consistent font size */
+}
+
+/* Radio button styles */
+.PostTypeForm input[type="radio"] {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Post Type Form label span styles */
+.PostTypeForm label span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Hover effects for Post Type Form labels */
+.PostTypeForm label:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+  color: #fff; /* Change text color on hover */
+}
+
+/* Hover effects for radio buttons */
+.PostTypeForm label:hover input[type="radio"] {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

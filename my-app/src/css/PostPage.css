@@ -1,62 +1,74 @@
+/* General styles for the Post Section */
 .PostSection {
-  margin-top: 100px;
-  width: auto;
-  padding: 20px 40px 20px 20px;
+  margin-top: 10px;
+  padding: 40px 30px;
   background-color: rgba(225, 89, 240, 0.522); /* Transparent background */
   border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  justify-content: center;
-  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Align items to fill the container */
 }
 
+
+/* Spacing between each child element */
 .PostSection > * {
   margin-bottom: 20px;
 }
 
+/* Title box style */
 .TitleBox {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
+/* Form styles */
 .Form {
   margin-top: 20px;
 }
 
+/* Field styles within the form */
 .Form .Field {
   margin-bottom: 20px;
   text-align: left;
 }
 
+/* Label styles */
 .Form .Field label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 5px; /* Adjusted for better spacing */
   font-weight: bold;
   color: #333;
 }
 
+/* Text area styles */
 .Form .Field .TextArea {
-  padding: 10px;
+  padding: 12px; /* Increased padding for better usability */
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: vertical;
   width: 100%;
-
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 }
 
+/* Focus state for text area */
 .Form .Field .TextArea:focus {
   border-color: #aaa;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-
-.PostPage h1{
+/* Header styles */
+.PostPage h1 {
   margin-top: 30px;
-  padding-top: 100px;
+  padding-top: 20px; /* Reduced padding for a better layout */
   color: white;
+  font-size: 2rem; /* Increased font size for better readability */
 }
 
-.ButtonSection{
+/* Button section styling */
+.ButtonSection {
   background-color: #330A6A;
-  padding: 10px 500px 10px 500px
+  padding: 15px 0; /* Adjusted padding for consistent spacing */
+  text-align: center; /* Center the button section */
 }

@@ -12,7 +12,10 @@ const PostTypeForm = ({ postType, onChange }) => {
   };
 
   return (
+    
     <form className='PostTypeForm'> {/* Class name corrected from 'class' to 'className' */}
+    <h1> What would you like to post today?</h1>
+    <div className='radio-post'>
       <label>
         <input
           onChange={handlePostTypeChange}
@@ -33,7 +36,9 @@ const PostTypeForm = ({ postType, onChange }) => {
         />
         Article
       </label>
+      </div>
     </form>
+
   );
 };
 

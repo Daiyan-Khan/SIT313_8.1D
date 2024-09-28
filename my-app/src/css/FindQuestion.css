@@ -1,67 +1,74 @@
-/* FindQuestion.css */
-
+/* Style for the main container of the FindQuestion page */
 .find-question-page {
     color: white;
-}
-.find-question-page {
     position: relative;
-    overflow: auto; /* Allows scrolling if needed */
-    height: 100vh; /* Adjust as necessary */
-    width:100vh;
+    overflow: auto; /* Allows scrolling if the content overflows */
+    height: 100vh; /* Set to full viewport height */
+    width: 100vh; /* Set to full viewport width */
 }
 
+/* Style for the question list container */
 .question-list {
-    position: relative; /* Ensure positioning context for absolute children */
+    position: relative; /* Relative positioning for flexibility */
 }
 
+/* Style for the filter section and the section for adding questions */
 .filter-section,
 .add-question-section {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Add space between the sections */
 }
 
+/* Style for input fields and text areas */
 input, textarea {
-    margin: 5px 0;
-    padding: 10px;
-    width: 100%;
+    margin: 5px 0; /* Add space above and below the inputs */
+    padding: 10px; /* Add padding inside the inputs */
+    width: 100%; /* Full width inputs */
 }
 
-
+/* Style for the list of questions, displayed as a column */
 .question-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack questions vertically */
 }
 
+/* Style for each individual question card */
 .question-card {
-    border: 2px solid white; /* Set border color and thickness */
-    padding: 16px; /* Optional: adds some space inside the card */
-    margin: 10px; /* Optional: adds some space between cards */
-    border-radius: 8px; /* Optional: rounds the corners of the card */
-    background-color: rgba(255, 255, 255, 0.1); /* Optional: gives a slight background color for visibility */
+    border: 2px solid white; /* White border around each card */
+    padding: 16px; /* Add padding inside the card */
+    margin: 10px; /* Add margin between the cards */
+    border-radius: 8px; /* Rounded corners */
+    background-color: rgba(255, 255, 255, 0.1); /* Slight translucent white background */
 }
 
+/* Style for the expanded details section inside a question card */
 .expanded-details {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9 transparent(0.6); /* Light background for expanded details */
-    border: 1px solid #ccc; /* Optional border */
+    margin-top: 10px; /* Space above the expanded section */
+    padding: 10px; /* Padding inside the section */
+    background-color: #f9f9f9 transparent(0.6); /* Light background with some transparency */
+    border: 1px solid #ccc; /* Light gray border */
     border-radius: 5px; /* Rounded corners */
 }
+
+/* Style for the "Click to Collapse" text in the expanded details */
 .click-to-collapse {
-    color: #e914cd;
-    cursor: pointer;
-    text-decoration: underline;
-    margin-top: 5px;
+    color: #e914cd; /* Highlight color for the clickable text */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    text-decoration: underline; /* Underline the clickable text */
+    margin-top: 5px; /* Space above the collapse text */
 }
+
+/* Style for the image gallery inside a question card */
 .image-gallery {
     display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow images to wrap onto the next line */
+    flex-wrap: wrap; /* Allow images to wrap onto new lines */
     gap: 10px; /* Space between images */
     margin-top: 10px; /* Space above the image gallery */
 }
 
+/* Style for individual images in the image gallery */
 .question-image {
-    max-width: 100%; /* Make sure images don't exceed their container's width */
-    max-height: 150px; /* Set a max height to prevent overflow */
-    object-fit: cover; /* Maintain aspect ratio and fill the space */
-    border-radius: 8px; /* Optional: add some rounded corners */
+    max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+    max-height: 150px; /* Set a max height to avoid overflow */
+    object-fit: cover; /* Ensure the image maintains its aspect ratio */
+    border-radius: 8px; /* Rounded corners on the images */
 }
